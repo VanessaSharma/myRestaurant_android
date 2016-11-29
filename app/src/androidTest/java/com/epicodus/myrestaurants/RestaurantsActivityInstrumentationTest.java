@@ -3,6 +3,8 @@ package com.epicodus.myrestaurants;
 import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 
+import com.epicodus.myrestaurants.ui.RestaurantsActivity;
+
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -25,7 +27,7 @@ public class RestaurantsActivityInstrumentationTest {
     @Test
     public void listItemClickDisplaysToastWithCorrectRestaurant() {
         View activityDecorView = activityTestRule.getActivity().getWindow().getDecorView();
-        String restaurantName = "Mi Mero Mole";
+        String restaurantName = "Sweet Hereafter";
         onData(anything())
                 .inAdapterView(withId(R.id.listView))
                 .atPosition(0)

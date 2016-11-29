@@ -2,6 +2,8 @@ package com.epicodus.myrestaurants;
 
 import android.support.test.rule.ActivityTestRule;
 
+import com.epicodus.myrestaurants.ui.MainActivity;
+
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -13,6 +15,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class MainActivityInstrumentationTest {
+
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =
             new ActivityTestRule<>(MainActivity.class);
@@ -31,4 +34,5 @@ public class MainActivityInstrumentationTest {
         onView(withId(R.id.locationTextView)).check(matches
                 (withText("Here are all the restaurants near: " + location)));
     }
+
 }
