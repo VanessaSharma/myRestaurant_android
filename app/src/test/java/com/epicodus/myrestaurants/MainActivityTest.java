@@ -1,46 +1,44 @@
-
 package com.epicodus.myrestaurants;
 
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.Typeface;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.epicodus.myrestaurants.ui.MainActivity;
-import com.epicodus.myrestaurants.ui.RestaurantsActivity;
+import com.epicodus.myrestaurants.ui.R;
+import com.epicodus.myrestaurants.ui.RestaurantListActivity;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowActivity;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-import static junit.framework.Assert.assertTrue;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    @Bind(R.id.findRestaurantsButton) Button mFindRestaurantsButton;
+    @Bind(R.id.locationEditText) EditText mLocationEditText;
+    @Bind(R.id.appNameTextView) TextView mAppNameTextView;
 
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-public class MainActivityTest {
-    private MainActivity activity;
+        Typeface ostrichFont = Typeface.createFromAsset(getAssets(), "fonts/ostrich-regular.ttf");
+        mAppNameTextView.setTypeface(ostrichFont);
 
-    @Before
-    public void setup() {
-        activity = Robolectric.setupActivity(MainActivity.class);
+        mFindRestaurantsButton.setOnClickListener(this);
     }
 
-    @Test
-    public void validateTextViewContent() {
-        TextView appNameTextView = (TextView) activity.findViewById(R.id.appNameTextView);
-        assertTrue("MyRestaurants".equals(appNameTextView.getText().toString()));
-    }
-
-    @Test
-    public void secondActivityStarted() {
-        activity.findViewById(R.id.findRestaurantsButton).performClick();
-        Intent expectedIntent = new Intent(activity, RestaurantsActivity.class);
-        ShadowActivity shadowActivity = org.robolectric.Shadows.shadowOf(activity);
-        Intent actualIntent = shadowActivity.getNextStartedActivity();
-        assertTrue(actualIntent.filterEquals(expectedIntent));
+    @Override
+    public void onClick(View v) {
+        if(v == mFindRestaurantsButton) {
+            String location = mLocationEditText.getText().toString();
+            Intent intent = new Intent(MainActivity.this, RestaurantListActivity.class);
+            intent.putExtra("location", location);
+            startActivity(intent);
+        }
     }
 }
